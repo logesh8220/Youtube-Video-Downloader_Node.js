@@ -1,7 +1,7 @@
 {
   "name": "youtube-video-downloader_node",
   "version": "1.0.0",
-  "main": "server.js",
+  "main": "index.js",
   "engines": {
     "node": "14.x"
   },
