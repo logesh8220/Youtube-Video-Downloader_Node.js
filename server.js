@@ -22,7 +22,7 @@ app.get('/info', async (req, res) => {
 
         }
     } catch (error) {
-        res.status(500).json("Internal Server Error")
+        res.status(500).json("Internal Server Error/ Network Error")
     }
 })
 
@@ -30,27 +30,28 @@ app.get('/download', async (req, res) => {
     try {
         const url = req.query.url
         const choosedQuality = req.query.format
+        console.log(choosedQuality)
         const type = req.query.type
         if (type === 'Video') {
             const info = await ytdl.getInfo(url);
-            res.attachment(`${info.videoDetails.title}.mp4`)
-            const audio = ytdl.downloadFromInfo(info, { audioCodec: 'opus' });
-            const video = ytdl.downloadFromInfo(info, { quality: choosedQuality, filter: f => f.container === 'mp4' });
-            const proc = spawn(ffmpeg, ['-loglevel', '8', '-i', 'pipe:3', '-i', 'pipe:4', '-map', '0:a', '-map', '1:v', '-c', 'copy', '-movflags', 'frag_keyframe+empty_moov', '-f', 'mp4', 'pipe:5'], { stdio: ['inherit', 'inherit', 'inherit', 'pipe', 'pipe', 'pipe'] }); // convert to mp4
+            const audio = ytdl.downloadFromInfo(info);
+            const video = ytdl.downloadFromInfo(info, { quality: choosedQuality });
+            const proc = spawn(ffmpeg, ['-loglevel', '8', '-i', 'pipe:3', '-i', 'pipe:4', '-map', '0:a?', '-map', '1:v', '-c', 'copy', '-movflags', 'frag_keyframe+empty_moov', '-f', 'mp4',  'pipe:5'], { stdio: ['inherit', 'inherit', 'inherit', 'pipe', 'pipe', 'pipe'] }); // convert to mp4
             audio.pipe(proc.stdio[3]);
             video.pipe(proc.stdio[4]);
             proc.stdio[5].pipe(res);
+            res.attachment(`${info.videoDetails.title}.mp4`)
         } else {
             const info = await ytdl.getInfo(url);
-            res.attachment(`${info.videoDetails.title}.mp3`);
-            const audio = ytdl.downloadFromInfo(info, { quality: choosedQuality });
+            const audio = ytdl.downloadFromInfo(info,{quality:251});
             const proc = spawn(ffmpeg, ['-loglevel', '8', '-i', 'pipe:3', '-f', 'mp3', 'pipe:4'], { stdio: ['inherit', 'inherit', 'inherit', 'pipe', 'pipe'] }); // convert to mp3
             audio.pipe(proc.stdio[3]);
             proc.stdio[4].pipe(res);
+            res.attachment(`${info.videoDetails.title}.mp3`);
         }
     } catch (error) {
         console.log(error)
-        res.status(500).json("Internal Server Error")
+        res.status(500).json("Internal Server Error / Network Error")
     }
 })
 
