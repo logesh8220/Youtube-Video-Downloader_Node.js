@@ -61,7 +61,7 @@ app.get('/download', async (req, res) => {
     }
 })
 
-app.listen(process.env.PORT || 5000, () => {
+app.listen(process.env.PORT || 3001, () => {
     console.log("Server Is Running")
 })
 
