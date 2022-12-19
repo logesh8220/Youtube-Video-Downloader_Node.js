@@ -1,7 +1,6 @@
 {
   "name": "youtube-video-downloader_node",
   "version": "1.0.0",
-  "description": "",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -15,5 +14,15 @@
     "express": "^4.18.2",
     "ffmpeg-static": "^5.1.0",
     "ytdl-core": "^4.11.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/logesh8220/Youtube-Video-Downloader_Node.js.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/logesh8220/Youtube-Video-Downloader_Node.js/issues"
+  },
+  "homepage": "https://github.com/logesh8220/Youtube-Video-Downloader_Node.js#readme",
+  "description": ""
 }
