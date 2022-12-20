@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Create GET request
 app.get("/", (req, res) => {
-  res.send("Express on Vercel");
+  res.send("Render Cloud");
 });
 
 app.get('/info', async (req, res) => {
